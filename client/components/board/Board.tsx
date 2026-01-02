@@ -1,15 +1,16 @@
 import * as React from "react";
 import { Room, Empty } from "./Room";
 import { Hall } from "./Hall";
-import BATHROOM from "../../assets/ballroom.png";
-import BILLIARD from "../../assets/billiard.png";
-import CONSERVATORY from "../../assets/conservatory.png";
-import DINING from "../../assets/dining.png";
-import HALL from "../../assets/hall.png";
-import KITCHEN from "../../assets/kitchen.png";
-import LIBRARY from "../../assets/library.png";
-import LOUNGE from "../../assets/lounge.png";
-import STUDY from "../../assets/study.png";
+// USS Vesper Room Images - using existing assets as placeholders until space assets generated
+import DATA_CORE from "../../assets/study.png";
+import BRIDGE from "../../assets/hall.png";
+import CAPTAINS_QUARTERS from "../../assets/lounge.png";
+import ENGINEERING_BAY from "../../assets/library.png";
+import OBSERVATION_DECK from "../../assets/billiard.png";
+import MESS_HALL from "../../assets/dining.png";
+import AIRLOCK from "../../assets/conservatory.png";
+import CARGO_HOLD from "../../assets/ballroom.png";
+import CRYO_BAY from "../../assets/kitchen.png";
 import "./Board.scss";
 import { useState, useEffect } from "react";
 import { ApiClient } from "../../ApiClient";
@@ -18,62 +19,52 @@ import { Suspect } from "../console/Suspect";
 
 export const Board = (props) => {
   "use strict";
-  const [study, setStudy] = useState<string>("");
-  const [studyHall, setStudyHall] = useState<string>("");
-  const [hall, setHall] = useState<string>("");
-  const [hallLounge, setHallLounge] = useState<string>("");
-  const [lounge, setLounge] = useState<string>("");
-  const [studyLibrary, setStudyLibrary] = useState<string>("");
-  const [hallBilliard, setHallBilliard] = useState<string>("");
-  const [loungeDining, setLoungeDining] = useState<string>("");
-  const [library, setLibrary] = useState<string>("");
-  const [libraryBilliard, setLibraryBilliard] = useState<string>("");
-  const [billiard, setBilliard] = useState<string>("");
-  const [billiardDining, setBilliardDining] = useState<string>("");
-  const [dining, setDining] = useState<string>("");
-  const [libraryConservatory, setLibraryConservatory] = useState<string>("");
-  const [billiardBallroom, setBilliardBallroom] = useState<string>("");
-  const [diningKitchen, setDiningKitchen] = useState<string>("");
-  const [conservatory, setConservatory] = useState<string>("");
-  const [conservatoryBallroom, setConservatoryBallroom] = useState<string>("");
-  const [ballroom, setBallroom] = useState<string>("");
-  const [ballroomKitchen, setBallroomKitchen] = useState<string>("");
-  const [kitchen, setKitchen] = useState<string>("");
+  
+  // USS Vesper Room States
+  const [dataCore, setDataCore] = useState<string>("");
+  const [dataCoreEngineering, setDataCoreEngineering] = useState<string>("");
+  const [bridge, setBridge] = useState<string>("");
+  const [bridgeCaptains, setBridgeCaptains] = useState<string>("");
+  const [captainsQuarters, setCaptainsQuarters] = useState<string>("");
+  const [dataCorebridge, setDataCoreBridge] = useState<string>("");
+  const [bridgeObservation, setBridgeObservation] = useState<string>("");
+  const [captainsMess, setCaptainsMess] = useState<string>("");
+  const [engineeringBay, setEngineeringBay] = useState<string>("");
+  const [engineeringObservation, setEngineeringObservation] = useState<string>("");
+  const [observationDeck, setObservationDeck] = useState<string>("");
+  const [observationMess, setObservationMess] = useState<string>("");
+  const [messHall, setMessHall] = useState<string>("");
+  const [engineeringAirlock, setEngineeringAirlock] = useState<string>("");
+  const [observationCargo, setObservationCargo] = useState<string>("");
+  const [messCryo, setMessCryo] = useState<string>("");
+  const [airlock, setAirlock] = useState<string>("");
+  const [airlockCargo, setAirlockCargo] = useState<string>("");
+  const [cargoHold, setCargoHold] = useState<string>("");
+  const [cargoCryo, setCargoCryo] = useState<string>("");
+  const [cryoBay, setCryoBay] = useState<string>("");
 
-  const [isStudySelected, setIsStudySelected] = useState<boolean>(false);
-  const [isStudyHallSelected, setIsStudyHallSelected] =
-    useState<boolean>(false);
-  const [isHallSelected, setIsHallSelected] = useState<boolean>(false);
-  const [isHallLoungeSelected, setIsHallLoungeSelected] =
-    useState<boolean>(false);
-  const [isLoungeSelected, setIsLoungeSelected] = useState<boolean>(false);
-  const [isStudyLibrarySelected, setIsStudyLibrarySelected] =
-    useState<boolean>(false);
-  const [isHallBilliardSelected, setIsHallBilliardSelected] =
-    useState<boolean>(false);
-  const [isLoungeDiningSelected, setLoungeDiningSelected] =
-    useState<boolean>(false);
-  const [isLibarySelected, setIsLibarySelected] = useState<boolean>(false);
-  const [isLibraryBilliardSelected, setIsLibraryBilliardSelected] =
-    useState<boolean>(false);
-  const [isBilliardSelected, setIsBilliardSelected] = useState<boolean>(false);
-  const [isBilliardDiningSelected, setIsBilliardDiningSelected] =
-    useState<boolean>(false);
-  const [isDiningSelected, setIsDiningSelected] = useState<boolean>(false);
-  const [isLibraryConservatorySelected, setIsLibraryConservatorySelected] =
-    useState<boolean>(false);
-  const [isBilliardBallroomSelected, setIsBilliardBallroomSelected] =
-    useState<boolean>(false);
-  const [isDiningKitchenSelected, setIsDiningKitchenSelected] =
-    useState<boolean>(false);
-  const [isConservatorySelected, setIsConservatorySelected] =
-    useState<boolean>(false);
-  const [isConservatoryBallroomSelected, setIsConservatoryBallroomSelected] =
-    useState<boolean>(false);
-  const [isBallroomSelected, setIsBallroomSelected] = useState<boolean>(false);
-  const [isBallroomKitchenSelected, setIsBallroomKitchenSelected] =
-    useState<boolean>(false);
-  const [isKitchenSelected, setIsKitchenSelected] = useState<boolean>(false);
+  // Selection states for highlighting available moves
+  const [isDataCoreSelected, setIsDataCoreSelected] = useState<boolean>(false);
+  const [isDataCoreEngineeringSelected, setIsDataCoreEngineeringSelected] = useState<boolean>(false);
+  const [isBridgeSelected, setIsBridgeSelected] = useState<boolean>(false);
+  const [isBridgeCaptainsSelected, setIsBridgeCaptainsSelected] = useState<boolean>(false);
+  const [isCaptainsQuartersSelected, setIsCaptainsQuartersSelected] = useState<boolean>(false);
+  const [isDataCoreBridgeSelected, setIsDataCoreBridgeSelected] = useState<boolean>(false);
+  const [isBridgeObservationSelected, setIsBridgeObservationSelected] = useState<boolean>(false);
+  const [isCaptainsMessSelected, setIsCaptainsMessSelected] = useState<boolean>(false);
+  const [isEngineeringBaySelected, setIsEngineeringBaySelected] = useState<boolean>(false);
+  const [isEngineeringObservationSelected, setIsEngineeringObservationSelected] = useState<boolean>(false);
+  const [isObservationDeckSelected, setIsObservationDeckSelected] = useState<boolean>(false);
+  const [isObservationMessSelected, setIsObservationMessSelected] = useState<boolean>(false);
+  const [isMessHallSelected, setIsMessHallSelected] = useState<boolean>(false);
+  const [isEngineeringAirlockSelected, setIsEngineeringAirlockSelected] = useState<boolean>(false);
+  const [isObservationCargoSelected, setIsObservationCargoSelected] = useState<boolean>(false);
+  const [isMessCryoSelected, setIsMessCryoSelected] = useState<boolean>(false);
+  const [isAirlockSelected, setIsAirlockSelected] = useState<boolean>(false);
+  const [isAirlockCargoSelected, setIsAirlockCargoSelected] = useState<boolean>(false);
+  const [isCargoHoldSelected, setIsCargoHoldSelected] = useState<boolean>(false);
+  const [isCargoCryoSelected, setIsCargoCryoSelected] = useState<boolean>(false);
+  const [isCryoBaySelected, setIsCryoBaySelected] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.character !== "") {
@@ -134,352 +125,353 @@ export const Board = (props) => {
 
   const setRoomOrHall = (roomHall, prettifiedCharacterName) => {
     switch (roomHall) {
-      case "study":
-        setStudy((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "data_core":
+        setDataCore((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "study-hall":
-        setStudyHall((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "data_core-bridge":
+        setDataCoreBridge((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "hall":
-        setHall((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "bridge":
+        setBridge((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "hall-lounge":
-        setHallLounge((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "bridge-captains_quarters":
+        setBridgeCaptains((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "lounge":
-        setLounge((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "captains_quarters":
+        setCaptainsQuarters((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "study-library":
-        setStudyLibrary((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "data_core-engineering_bay":
+        setDataCoreEngineering((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "hall-billiard":
-        setHallBilliard((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "bridge-observation_deck":
+        setBridgeObservation((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "lounge-dining":
-        setLoungeDining((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "captains_quarters-mess_hall":
+        setCaptainsMess((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "library":
-        setLibrary((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "engineering_bay":
+        setEngineeringBay((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "library-billiard":
-        setLibraryBilliard((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "engineering_bay-observation_deck":
+        setEngineeringObservation((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "billiard":
-        setBilliard((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "observation_deck":
+        setObservationDeck((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "billiard-dining":
-        setBilliardDining((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "observation_deck-mess_hall":
+        setObservationMess((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "dining":
-        setDining((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "mess_hall":
+        setMessHall((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "library-conservatory":
-        setLibraryConservatory((prev) =>
-          cleanRoom(prev, prettifiedCharacterName)
-        );
+      case "engineering_bay-airlock":
+        setEngineeringAirlock((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "billiard-ballroom":
-        setBilliardBallroom((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "observation_deck-cargo_hold":
+        setObservationCargo((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "dining-kitchen":
-        setDiningKitchen((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "mess_hall-cryo_bay":
+        setMessCryo((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "conservatory":
-        setConservatory((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "airlock":
+        setAirlock((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "conservatory-ballroom":
-        setConservatoryBallroom((prev) =>
-          cleanRoom(prev, prettifiedCharacterName)
-        );
+      case "airlock-cargo_hold":
+        setAirlockCargo((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "ballroom":
-        setBallroom((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "cargo_hold":
+        setCargoHold((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "ballroom-kitchen":
-        setBallroomKitchen((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "cargo_hold-cryo_bay":
+        setCargoCryo((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
-      case "kitchen":
-        setKitchen((prev) => cleanRoom(prev, prettifiedCharacterName));
+      case "cryo_bay":
+        setCryoBay((prev) => cleanRoom(prev, prettifiedCharacterName));
         break;
     }
   };
 
   const setRoomOrHallIsSelected = (roomOrHall) => {
     switch (roomOrHall) {
-      case "study":
-        setIsStudySelected(true);
+      case "data_core":
+        setIsDataCoreSelected(true);
         break;
-      case "study-hall":
-        setIsStudyHallSelected(true);
+      case "data_core-bridge":
+        setIsDataCoreBridgeSelected(true);
         break;
-      case "hall":
-        setIsHallSelected(true);
+      case "bridge":
+        setIsBridgeSelected(true);
         break;
-      case "hall-lounge":
-        setIsHallLoungeSelected(true);
+      case "bridge-captains_quarters":
+        setIsBridgeCaptainsSelected(true);
         break;
-      case "lounge":
-        setIsLoungeSelected(true);
+      case "captains_quarters":
+        setIsCaptainsQuartersSelected(true);
         break;
-      case "study-library":
-        setIsStudyLibrarySelected(true);
+      case "data_core-engineering_bay":
+        setIsDataCoreEngineeringSelected(true);
         break;
-      case "hall-billiard":
-        setIsHallBilliardSelected(true);
+      case "bridge-observation_deck":
+        setIsBridgeObservationSelected(true);
         break;
-      case "lounge-dining":
-        setLoungeDiningSelected(true);
+      case "captains_quarters-mess_hall":
+        setIsCaptainsMessSelected(true);
         break;
-      case "library":
-        setIsLibarySelected(true);
+      case "engineering_bay":
+        setIsEngineeringBaySelected(true);
         break;
-      case "library-billiard":
-        setIsLibraryBilliardSelected(true);
+      case "engineering_bay-observation_deck":
+        setIsEngineeringObservationSelected(true);
         break;
-      case "billiard":
-        setIsBilliardSelected(true);
+      case "observation_deck":
+        setIsObservationDeckSelected(true);
         break;
-      case "billiard-dining":
-        setIsBilliardDiningSelected(true);
+      case "observation_deck-mess_hall":
+        setIsObservationMessSelected(true);
         break;
-      case "dining":
-        setIsDiningSelected(true);
+      case "mess_hall":
+        setIsMessHallSelected(true);
         break;
-      case "library-conservatory":
-        setIsLibraryConservatorySelected(true);
+      case "engineering_bay-airlock":
+        setIsEngineeringAirlockSelected(true);
         break;
-      case "billiard-ballroom":
-        setIsBilliardBallroomSelected(true);
+      case "observation_deck-cargo_hold":
+        setIsObservationCargoSelected(true);
         break;
-      case "dining-kitchen":
-        setIsDiningKitchenSelected(true);
+      case "mess_hall-cryo_bay":
+        setIsMessCryoSelected(true);
         break;
-      case "conservatory":
-        setIsConservatorySelected(true);
+      case "airlock":
+        setIsAirlockSelected(true);
         break;
-      case "conservatory-ballroom":
-        setIsConservatoryBallroomSelected(true);
+      case "airlock-cargo_hold":
+        setIsAirlockCargoSelected(true);
         break;
-      case "ballroom":
-        setIsBallroomSelected(true);
+      case "cargo_hold":
+        setIsCargoHoldSelected(true);
         break;
-      case "ballroom-kitchen":
-        setIsBallroomKitchenSelected(true);
+      case "cargo_hold-cryo_bay":
+        setIsCargoCryoSelected(true);
         break;
-      case "kitchen":
-        setIsKitchenSelected(true);
+      case "cryo_bay":
+        setIsCryoBaySelected(true);
         break;
     }
   };
 
   const resetBoard = async () => {
     const EMPTY = "";
-    setStudy(EMPTY);
-    setStudyHall(EMPTY);
-    setHall(EMPTY);
-    setHallLounge(EMPTY);
-    setLounge(EMPTY);
-    setStudyLibrary(EMPTY);
-    setHallBilliard(EMPTY);
-    setLoungeDining(EMPTY);
-    setLibrary(EMPTY);
-    setLibraryBilliard(EMPTY);
-    setBilliard(EMPTY);
-    setBilliardDining(EMPTY);
-    setDining(EMPTY);
-    setLibraryConservatory(EMPTY);
-    setBilliardBallroom(EMPTY);
-    setDiningKitchen(EMPTY);
-    setConservatory(EMPTY);
-    setConservatoryBallroom(EMPTY);
-    setBallroom(EMPTY);
-    setBallroomKitchen(EMPTY);
-    setKitchen(EMPTY);
+    setDataCore(EMPTY);
+    setDataCoreBridge(EMPTY);
+    setBridge(EMPTY);
+    setBridgeCaptains(EMPTY);
+    setCaptainsQuarters(EMPTY);
+    setDataCoreEngineering(EMPTY);
+    setBridgeObservation(EMPTY);
+    setCaptainsMess(EMPTY);
+    setEngineeringBay(EMPTY);
+    setEngineeringObservation(EMPTY);
+    setObservationDeck(EMPTY);
+    setObservationMess(EMPTY);
+    setMessHall(EMPTY);
+    setEngineeringAirlock(EMPTY);
+    setObservationCargo(EMPTY);
+    setMessCryo(EMPTY);
+    setAirlock(EMPTY);
+    setAirlockCargo(EMPTY);
+    setCargoHold(EMPTY);
+    setCargoCryo(EMPTY);
+    setCryoBay(EMPTY);
 
-    setIsStudySelected(false);
-    setIsStudyHallSelected(false);
-    setIsHallSelected(false);
-    setIsHallLoungeSelected(false);
-    setIsLoungeSelected(false);
-    setIsStudyLibrarySelected(false);
-    setIsHallBilliardSelected(false);
-    setLoungeDiningSelected(false);
-    setIsLibarySelected(false);
-    setIsLibraryBilliardSelected(false);
-    setIsBilliardSelected(false);
-    setIsBilliardDiningSelected(false);
-    setIsDiningSelected(false);
-    setIsLibraryConservatorySelected(false);
-    setIsBilliardBallroomSelected(false);
-    setIsDiningKitchenSelected(false);
-    setIsConservatorySelected(false);
-    setIsConservatoryBallroomSelected(false);
-    setIsBallroomSelected(false);
-    setIsBallroomKitchenSelected(false);
-    setIsKitchenSelected(false);
+    setIsDataCoreSelected(false);
+    setIsDataCoreBridgeSelected(false);
+    setIsBridgeSelected(false);
+    setIsBridgeCaptainsSelected(false);
+    setIsCaptainsQuartersSelected(false);
+    setIsDataCoreEngineeringSelected(false);
+    setIsBridgeObservationSelected(false);
+    setIsCaptainsMessSelected(false);
+    setIsEngineeringBaySelected(false);
+    setIsEngineeringObservationSelected(false);
+    setIsObservationDeckSelected(false);
+    setIsObservationMessSelected(false);
+    setIsMessHallSelected(false);
+    setIsEngineeringAirlockSelected(false);
+    setIsObservationCargoSelected(false);
+    setIsMessCryoSelected(false);
+    setIsAirlockSelected(false);
+    setIsAirlockCargoSelected(false);
+    setIsCargoHoldSelected(false);
+    setIsCargoCryoSelected(false);
+    setIsCryoBaySelected(false);
   };
 
   return (
     <table>
       <tbody>
+        {/* Row 1: Data Core - Bridge - Captain's Quarters */}
         <tr>
           <Room
-            room={STUDY}
-            character={study}
-            selected={isStudySelected}
-            tag="study"
+            room={DATA_CORE}
+            character={dataCore}
+            selected={isDataCoreSelected}
+            tag="data_core"
             cellClick={publishNewLocation}
           />
           <Hall
             horizontal={true}
-            character={studyHall}
-            selected={isStudyHallSelected}
-            tag="study-hall"
+            character={dataCorebridge}
+            selected={isDataCoreBridgeSelected}
+            tag="data_core-bridge"
             cellClick={publishNewLocation}
           />
           <Room
-            room={HALL}
-            character={hall}
-            selected={isHallSelected}
-            tag="hall"
+            room={BRIDGE}
+            character={bridge}
+            selected={isBridgeSelected}
+            tag="bridge"
             cellClick={publishNewLocation}
           />
           <Hall
             horizontal={true}
-            character={hallLounge}
-            selected={isHallLoungeSelected}
-            tag="hall-lounge"
+            character={bridgeCaptains}
+            selected={isBridgeCaptainsSelected}
+            tag="bridge-captains_quarters"
             cellClick={publishNewLocation}
           />
           <Room
-            room={LOUNGE}
-            character={lounge}
-            selected={isLoungeSelected}
-            tag="lounge"
+            room={CAPTAINS_QUARTERS}
+            character={captainsQuarters}
+            selected={isCaptainsQuartersSelected}
+            tag="captains_quarters"
             cellClick={publishNewLocation}
           />
         </tr>
+        {/* Row 2: Vertical hallways */}
         <tr>
           <Hall
             horizontal={false}
-            character={studyLibrary}
-            selected={isStudyLibrarySelected}
-            tag="study-library"
+            character={dataCoreEngineering}
+            selected={isDataCoreEngineeringSelected}
+            tag="data_core-engineering_bay"
             cellClick={publishNewLocation}
           />
           <Empty />
           <Hall
             horizontal={false}
-            character={hallBilliard}
-            selected={isHallBilliardSelected}
-            tag="hall-billiard"
+            character={bridgeObservation}
+            selected={isBridgeObservationSelected}
+            tag="bridge-observation_deck"
             cellClick={publishNewLocation}
           />
           <Empty />
           <Hall
             horizontal={false}
-            character={loungeDining}
-            selected={isLoungeDiningSelected}
-            tag="lounge-dining"
+            character={captainsMess}
+            selected={isCaptainsMessSelected}
+            tag="captains_quarters-mess_hall"
             cellClick={publishNewLocation}
           />
         </tr>
+        {/* Row 3: Engineering Bay - Observation Deck - Mess Hall */}
         <tr>
           <Room
-            room={LIBRARY}
-            character={library}
-            selected={isLibarySelected}
-            tag="library"
+            room={ENGINEERING_BAY}
+            character={engineeringBay}
+            selected={isEngineeringBaySelected}
+            tag="engineering_bay"
             cellClick={publishNewLocation}
           />
           <Hall
             horizontal={true}
-            character={libraryBilliard}
-            selected={isLibraryBilliardSelected}
-            tag="library-billiard"
+            character={engineeringObservation}
+            selected={isEngineeringObservationSelected}
+            tag="engineering_bay-observation_deck"
             cellClick={publishNewLocation}
           />
           <Room
-            room={BILLIARD}
-            character={billiard}
-            selected={isBilliardSelected}
-            tag="billiard"
+            room={OBSERVATION_DECK}
+            character={observationDeck}
+            selected={isObservationDeckSelected}
+            tag="observation_deck"
             cellClick={publishNewLocation}
           />
           <Hall
             horizontal={true}
-            character={billiardDining}
-            selected={isBilliardDiningSelected}
-            tag="billiard-dining"
+            character={observationMess}
+            selected={isObservationMessSelected}
+            tag="observation_deck-mess_hall"
             cellClick={publishNewLocation}
           />
           <Room
-            room={DINING}
-            character={dining}
-            selected={isDiningSelected}
-            tag="dining"
+            room={MESS_HALL}
+            character={messHall}
+            selected={isMessHallSelected}
+            tag="mess_hall"
             cellClick={publishNewLocation}
           />
         </tr>
+        {/* Row 4: Vertical hallways */}
         <tr>
           <Hall
             horizontal={false}
-            character={libraryConservatory}
-            selected={isLibraryConservatorySelected}
-            tag="library-conservatory"
+            character={engineeringAirlock}
+            selected={isEngineeringAirlockSelected}
+            tag="engineering_bay-airlock"
             cellClick={publishNewLocation}
           />
           <Empty />
           <Hall
             horizontal={false}
-            character={billiardBallroom}
-            selected={isBilliardBallroomSelected}
-            tag="billiard-ballroom"
+            character={observationCargo}
+            selected={isObservationCargoSelected}
+            tag="observation_deck-cargo_hold"
             cellClick={publishNewLocation}
           />
           <Empty />
           <Hall
             horizontal={false}
-            character={diningKitchen}
-            selected={isDiningKitchenSelected}
-            tag="dining-kitchen"
+            character={messCryo}
+            selected={isMessCryoSelected}
+            tag="mess_hall-cryo_bay"
             cellClick={publishNewLocation}
           />
         </tr>
+        {/* Row 5: Airlock - Cargo Hold - Cryo Bay */}
         <tr>
           <Room
-            room={CONSERVATORY}
-            character={conservatory}
-            selected={isConservatorySelected}
-            tag="conservatory"
+            room={AIRLOCK}
+            character={airlock}
+            selected={isAirlockSelected}
+            tag="airlock"
             cellClick={publishNewLocation}
           />
           <Hall
             horizontal={true}
-            character={conservatoryBallroom}
-            selected={isConservatoryBallroomSelected}
-            tag="conservatory-ballroom"
+            character={airlockCargo}
+            selected={isAirlockCargoSelected}
+            tag="airlock-cargo_hold"
             cellClick={publishNewLocation}
           />
           <Room
-            room={BATHROOM}
-            character={ballroom}
-            selected={isBallroomSelected}
-            tag="ballroom"
+            room={CARGO_HOLD}
+            character={cargoHold}
+            selected={isCargoHoldSelected}
+            tag="cargo_hold"
             cellClick={publishNewLocation}
           />
           <Hall
             horizontal={true}
-            character={ballroomKitchen}
-            selected={isBallroomKitchenSelected}
-            tag="ballroom-kitchen"
+            character={cargoCryo}
+            selected={isCargoCryoSelected}
+            tag="cargo_hold-cryo_bay"
             cellClick={publishNewLocation}
           />
           <Room
-            room={KITCHEN}
-            character={kitchen}
-            selected={isKitchenSelected}
-            tag="kitchen"
+            room={CRYO_BAY}
+            character={cryoBay}
+            selected={isCryoBaySelected}
+            tag="cryo_bay"
             cellClick={publishNewLocation}
           />
         </tr>
