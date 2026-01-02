@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./Modal.scss";
 import { Suspect } from "../console/Suspect";
 import { ApiClient } from "../../ApiClient";
+import { DemoApiClient, DEMO_MODE } from "../../DemoApiClient";
+
+// Use demo or real API based on DEMO_MODE
+const Api = DEMO_MODE ? DemoApiClient : ApiClient;
 
 export const Modal = (props) => {
   const [player, setPlayer] = useState<string>("");
@@ -26,7 +30,7 @@ export const Modal = (props) => {
     const character_name =
       character === "Dr. Nova" ? "dr_nova" : character;
     const payload = { character_name: character_name };
-    ApiClient.put("/player/" + player, payload);
+    Api.put("/player/" + player, payload);
     props.handleCallback(player, character_name);
     dialog!.close();
   };
