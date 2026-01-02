@@ -48,7 +48,7 @@
     "test": "jest --config=./client/jest.config.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "eslintConfig": {
     "extends": "react-app"
