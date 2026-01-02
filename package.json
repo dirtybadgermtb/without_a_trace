@@ -43,7 +43,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config client/webpack.dev.config.js --watch --watch-poll",
-    "build": "rm -rf client/dist && webpack --config client/webpack.prod.config.js",
+    "build": "npx rimraf client/dist && webpack --config client/webpack.prod.config.js",
     "fly": "react-scripts start",
     "test": "jest --config=./client/jest.config.js"
   },
