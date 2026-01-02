@@ -39,13 +39,16 @@
     "react-widgets": "^4.4.11",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
-    "typescript": "^3.6.2"
+    "typescript": "^5.3.0"
   },
   "scripts": {
     "start": "webpack-dev-server --config client/webpack.dev.config.js --watch --watch-poll",
     "build": "npx rimraf client/dist && webpack --config client/webpack.prod.config.js",
     "fly": "react-scripts start",
     "test": "jest --config=./client/jest.config.js"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "eslintConfig": {
     "extends": "react-app"
