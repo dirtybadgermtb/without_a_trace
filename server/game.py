@@ -4,73 +4,77 @@ from player import Player
 from room import Room
 from collections import OrderedDict
 
+# === WITHOUT A TRACE - Space Theme ===
+# USS Vesper Research Vessel Layout
+
 # Indicates whether hallway is free
 HALLWAY_STATE = {
-    'study-hall': True,
-    'study-library': True,
-    'hall-lounge': True,
-    'hall-billiard': True,
-    'lounge-dining': True,
-    'library-billiard': True,
-    'library-conservatory': True,
-    'billiard-dining': True,
-    'billiard-ballroom': True,
-    'dining-kitchen': True,
-    'conservatory-ballroom': True,
-    'ballroom-kitchen': True
+    'data_core-bridge': True,
+    'data_core-engineering_bay': True,
+    'bridge-captains_quarters': True,
+    'bridge-observation_deck': True,
+    'captains_quarters-mess_hall': True,
+    'engineering_bay-observation_deck': True,
+    'engineering_bay-airlock': True,
+    'observation_deck-mess_hall': True,
+    'observation_deck-cargo_hold': True,
+    'mess_hall-cryo_bay': True,
+    'airlock-cargo_hold': True,
+    'cargo_hold-cryo_bay': True
 }
 
 INITIAL_PLAYER_LOCATIONS = {
-    'miss_scarlet': 'hall-lounge',
-    'professor_plum': 'study-library',
-    'colonel_mustard': 'lounge-dining',
-    'mrs_peacock': 'library-conservatory',
-    'mr_green': 'conservatory-ballroom',
-    'mrs_white': 'ballroom-kitchen'
+    'dr_nova': 'bridge-captains_quarters',
+    'engineer_orion': 'data_core-engineering_bay',
+    'commander_sirius': 'captains_quarters-mess_hall',
+    'agent_vega': 'engineering_bay-airlock',
+    'pilot_altair': 'airlock-cargo_hold',
+    'tech_cassini': 'cargo_hold-cryo_bay'
 }
 
 ROOMS = [
-    'study', 'hall', 'billiard', 'lounge', 'dining', 'library', 'conservatory',
-    'ballroom', 'kitchen'
+    'data_core', 'bridge', 'observation_deck', 'captains_quarters', 'mess_hall',
+    'engineering_bay', 'airlock', 'cargo_hold', 'cryo_bay'
 ]
 
-WEAPONS = ['pipe', 'knife', 'wrench', 'rope', 'revolver', 'candlestick']
+WEAPONS = ['plasma_cutter', 'oxygen_tank', 'stun_blaster', 'conduit_rod', 'tether_cable', 'mag_driver']
 
 CHARACTERS = [
-    'miss_scarlet', 'professor_plum', 'colonel_mustard', 'mrs_peacock',
-    'mr_green', 'mrs_white'
+    'dr_nova', 'engineer_orion', 'commander_sirius', 'agent_vega',
+    'pilot_altair', 'tech_cassini'
 ]
 
 
 class CluelessGame:
 
     def __init__(self):
-        # Initialize the rooms
+        # Initialize the rooms - USS Vesper Layout
+        # Secret passages: Data Core <-> Cryo Bay, Captain's Quarters <-> Airlock
         self.rooms = dict()
-        self.rooms['study'] = Room('study', 'kitchen',
-                                   ['study-library', 'study-hall'])
-        self.rooms['hall'] = Room(
-            'hall', None, ['hall-billiard', 'hall-lounge', 'study-hall'])
-        self.rooms['lounge'] = Room('lounge', 'conservatory',
-                                    ['lounge-dining', 'hall-lounge'])
-        self.rooms['library'] = Room(
-            'library', None,
-            ['study-library', 'library-conservatory', 'library-billiard'])
-        self.rooms['billiard'] = Room('billiard', None, [
-            'hall-billiard', 'billiard-ballroom', 'library-billiard',
-            'billiard-dining'
+        self.rooms['data_core'] = Room('data_core', 'cryo_bay',
+                                       ['data_core-engineering_bay', 'data_core-bridge'])
+        self.rooms['bridge'] = Room(
+            'bridge', None, ['bridge-observation_deck', 'bridge-captains_quarters', 'data_core-bridge'])
+        self.rooms['captains_quarters'] = Room('captains_quarters', 'airlock',
+                                               ['captains_quarters-mess_hall', 'bridge-captains_quarters'])
+        self.rooms['engineering_bay'] = Room(
+            'engineering_bay', None,
+            ['data_core-engineering_bay', 'engineering_bay-airlock', 'engineering_bay-observation_deck'])
+        self.rooms['observation_deck'] = Room('observation_deck', None, [
+            'bridge-observation_deck', 'observation_deck-cargo_hold', 'engineering_bay-observation_deck',
+            'observation_deck-mess_hall'
         ])
-        self.rooms['dining'] = Room(
-            'dining', None,
-            ['lounge-dining', 'dining-kitchen', 'billiard-diningroom'])
-        self.rooms['conservatory'] = Room(
-            'conservatory', 'lounge',
-            ['library-conservatory', 'conservatory-ballroom'])
-        self.rooms['ballroom'] = Room(
-            'ballroom', None,
-            ['billiard-ballroom', 'conservatory-ballroom', 'ballroom-kitchen'])
-        self.rooms['kitchen'] = Room('kitchen', 'study',
-                                     ['dining-kitchen', 'ballroom-kitchen'])
+        self.rooms['mess_hall'] = Room(
+            'mess_hall', None,
+            ['captains_quarters-mess_hall', 'mess_hall-cryo_bay', 'observation_deck-mess_hall'])
+        self.rooms['airlock'] = Room(
+            'airlock', 'captains_quarters',
+            ['engineering_bay-airlock', 'airlock-cargo_hold'])
+        self.rooms['cargo_hold'] = Room(
+            'cargo_hold', None,
+            ['observation_deck-cargo_hold', 'airlock-cargo_hold', 'cargo_hold-cryo_bay'])
+        self.rooms['cryo_bay'] = Room('cryo_bay', 'data_core',
+                                      ['mess_hall-cryo_bay', 'cargo_hold-cryo_bay'])
 
         self.hallways = HALLWAY_STATE.copy()
 

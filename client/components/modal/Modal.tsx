@@ -5,7 +5,7 @@ import { ApiClient } from "../../ApiClient";
 
 export const Modal = (props) => {
   const [player, setPlayer] = useState<string>("");
-  const [character, setCharacter] = useState<string>(Suspect.miss_scarlet);
+  const [character, setCharacter] = useState<string>(Suspect.dr_nova);
   const [dialog, setDialog] = useState<HTMLDialogElement | null>(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const Modal = (props) => {
 
   const handlePlayButton = () => {
     const character_name =
-      character === "Miss Scarlet" ? "miss_scarlet" : character;
+      character === "Dr. Nova" ? "dr_nova" : character;
     const payload = { character_name: character_name };
     ApiClient.put("/player/" + player, payload);
     props.handleCallback(player, character_name);

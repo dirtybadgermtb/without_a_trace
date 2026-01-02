@@ -7,23 +7,23 @@ export const prettifyName = (name) => {
 export const unprettifyName = (name) => {
   let unprettifiedName = "";
   switch (name) {
-    case "Miss Scarlet":
-      unprettifiedName = "miss_scarlet";
+    case "Dr. Nova":
+      unprettifiedName = "dr_nova";
       break;
-    case "Professor Plum":
-      unprettifiedName = "professor_plum";
+    case "Engineer Orion":
+      unprettifiedName = "engineer_orion";
       break;
-    case "Colonel Mustard":
-      unprettifiedName = "colonel_mustard";
+    case "Commander Sirius":
+      unprettifiedName = "commander_sirius";
       break;
-    case "Mrs. Peacock":
-      unprettifiedName = "mrs_peacock";
+    case "Agent Vega":
+      unprettifiedName = "agent_vega";
       break;
-    case "Mr. Green":
-      unprettifiedName = "mr_green";
+    case "Pilot Altair":
+      unprettifiedName = "pilot_altair";
       break;
-    case "Mrs. White":
-      unprettifiedName = "mrs_white";
+    case "Tech Cassini":
+      unprettifiedName = "tech_cassini";
       break;
     default:
       break;

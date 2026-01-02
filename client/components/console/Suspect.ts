@@ -1,8 +1,9 @@
+// Without A Trace - USS Vesper Crew
 export enum Suspect {
-  miss_scarlet = "Miss Scarlet",
-  mr_green = "Mr. Green",
-  colonel_mustard = "Colonel Mustard",
-  professor_plum = "Professor Plum",
-  mrs_peacock = "Mrs. Peacock",
-  mrs_white = "Mrs. White",
+  dr_nova = "Dr. Nova",
+  engineer_orion = "Engineer Orion",
+  commander_sirius = "Commander Sirius",
+  agent_vega = "Agent Vega",
+  pilot_altair = "Pilot Altair",
+  tech_cassini = "Tech Cassini",
 }

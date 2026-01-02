@@ -1,14 +1,61 @@
-# Clue Board Game
+# Without A Trace 🚀
 
-![alt text](screenshot.png)
+![Screenshot](screenshot.png)
 
-This game is a simplified version of the popular board game, [Clue](https://en.wikipedia.org/wiki/Cluedo), that supports online multi-players.
+A space-themed multiplayer mystery game inspired by Clue. Set aboard the USS Vesper, a derelict research vessel, players must deduce **WHO** committed the crime, **WHERE** aboard the station it happened, and **WHAT WEAPON** was used.
+
+## Theme
+
+### Suspects
+
+| Character        | Role                  |
+| ---------------- | --------------------- |
+| Commander Sirius | Ship Captain          |
+| Dr. Nova         | Chief Medical Officer |
+| Engineer Orion   | Lead Engineer         |
+| Agent Vega       | Security Officer      |
+| Pilot Altair     | Navigation Officer    |
+| Tech Cassini     | AI Technician         |
+
+### Locations
+
+Bridge • Captain's Quarters • Mess Hall • Cryo Bay • Cargo Hold • Observation Deck • Engineering Bay • Data Core • Airlock
+
+### Weapons
+
+Plasma Cutter • Oxygen Tank • Stun Blaster • Conduit Rod • Tether Cable • Mag-Driver
+
+---
+
+## Getting Started
 
 ### Backend
-Backend is done in Python using Flask with optional RabbitMQ. Make sure to `pip install` and run the server.
+
+Python Flask server with WebSocket support.
+
+```bash
+cd server
+pip install -r requirements.txt
+python application.py
+```
 
 ### Frontend
-Frontend is done using Typescript and React JS with webpack. Web sockets are used to broadcast messages. Run `yarn start` to start the app.
+
+React/TypeScript with webpack.
+
+```bash
+npm install
+npm start
+```
 
 ### Tests
-Tests are done using Jest. Run `yarn test`.
+
+```bash
+npm test
+```
+
+---
+
+## Credits
+
+Based on [etuong/clue](https://github.com/etuong/clue). Re-themed for a sci-fi adventure.
