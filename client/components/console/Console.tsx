@@ -5,7 +5,11 @@ import { Weapon } from "./Weapon";
 import { Suspect } from "./Suspect";
 import { Room } from "./Room";
 import { ApiClient } from "../../ApiClient";
+import { DemoApiClient, DEMO_MODE } from "../../DemoApiClient";
 import { unprettifyName } from "../../utils/CharacterNameHelper";
+
+// Use demo or real API based on DEMO_MODE
+const Api = DEMO_MODE ? DemoApiClient : ApiClient;
 
 export const Console = (props) => {
   const [player, setPlayer] = useState<string>("");
@@ -64,12 +68,19 @@ export const Console = (props) => {
 
   const getUpdatedPlayer = async (playerName) => {
     if (playerName) {
-      const response = await ApiClient.get("/player/" + playerName);
-      const roomHall = response.room_hall;
-      if (Room[roomHall]) {
-        setRoom(Room[roomHall]);
+      try {
+        const response = await Api.get("/player/" + playerName);
+        const roomHall = response.room_hall;
+        if (Room[roomHall]) {
+          setRoom(Room[roomHall]);
+        }
+        setReadyToSuggestOrAccuse(response.allow_suggestion || DEMO_MODE);
+      } catch (error) {
+        // In demo mode, enable suggestions by default
+        if (DEMO_MODE) {
+          setReadyToSuggestOrAccuse(true);
+        }
       }
-      setReadyToSuggestOrAccuse(response.allow_suggestion);
     }
   };
 
@@ -116,7 +127,7 @@ export const Console = (props) => {
       accused_weapon: weapon.toLowerCase(),
       accused_room: room.toLowerCase(),
     };
-    const response = await ApiClient.put(
+    const response = await Api.put(
       "/player/accusation/" + player,
       payload
     );
@@ -148,7 +159,7 @@ export const Console = (props) => {
       suggested_weapon: weapon,
       suggested_room: room,
     };
-    const response = await ApiClient.put(
+    const response = await Api.put(
       "/player/suggestions/" + player,
       payload
     );

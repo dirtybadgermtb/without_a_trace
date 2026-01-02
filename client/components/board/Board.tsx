@@ -14,8 +14,12 @@ import CRYO_BAY from "../../assets/kitchen.png";
 import "./Board.scss";
 import { useState, useEffect } from "react";
 import { ApiClient } from "../../ApiClient";
+import { DemoApiClient, DEMO_MODE } from "../../DemoApiClient";
 import { prettifyName } from "../../utils/CharacterNameHelper";
 import { Suspect } from "../console/Suspect";
+
+// Use demo or real API based on DEMO_MODE
+const Api = DEMO_MODE ? DemoApiClient : ApiClient;
 
 export const Board = (props) => {
   "use strict";
@@ -70,7 +74,7 @@ export const Board = (props) => {
     if (props.character !== "") {
       props.socket.on("update-board", async function (currentCharacter) {
         await resetBoard();
-        const response = await ApiClient.get("/players");
+        const response = await Api.get("/players");
 
         for (var key of Object.keys(response)) {
           const player = response[key];
@@ -97,7 +101,7 @@ export const Board = (props) => {
 
   const publishNewLocation = async (tag) => {
     const payload = { location: tag };
-    const response = await ApiClient.put(
+    const response = await Api.put(
       "/player/move/" + props.player,
       payload
     );

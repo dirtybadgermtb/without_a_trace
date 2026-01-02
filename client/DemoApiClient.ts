@@ -9,7 +9,7 @@ export const DEMO_MODE = true;
 interface DemoGameState {
   isPlaying: boolean;
   currentPlayer: string;
-  players: Map<string, { character_name: string; cards: string[] }>;
+  players: Map<string, { character_name: string; cards: string[]; room_hall?: string }>;
 }
 
 const demoState: DemoGameState = {
@@ -51,13 +51,39 @@ export class DemoApiClient {
       return { isPlaying: demoState.isPlaying };
     }
 
+    // GET /players - returns all players and their state
+    if (path === "/players") {
+      const result: Record<string, any> = {};
+      demoState.players.forEach((data, playerName) => {
+        result[playerName] = {
+          character_name: data.character_name,
+          room_hall: data.room_hall || "bridge",
+          allow_suggestion: true,
+          allow_disapproval: false,
+          available_moves: ["data_core", "captains_quarters", "observation_deck"],
+        };
+      });
+      return result;
+    }
+
+    // GET /player/:name
     if (path.startsWith("/player/")) {
       const playerName = path.replace("/player/", "");
       const playerData = demoState.players.get(playerName);
       if (playerData) {
-        return { cards: playerData.cards };
+        return {
+          cards: playerData.cards,
+          room_hall: playerData.room_hall || "bridge",
+          allow_suggestion: true,
+          available_moves: ["data_core", "captains_quarters", "observation_deck"],
+        };
       }
-      return { cards: getDemoCards() };
+      return {
+        cards: getDemoCards(),
+        room_hall: "bridge",
+        allow_suggestion: true,
+        available_moves: ["data_core", "captains_quarters"],
+      };
     }
 
     return {};
@@ -93,30 +119,74 @@ export class DemoApiClient {
     console.log(`[DEMO] PUT ${path}`, body);
     await DemoApiClient.simulateDelay();
 
-    if (path.startsWith("/player/")) {
-      const playerName = path.replace("/player/", "");
-      const characterName = body.character_name || "dr_nova";
+    const playerName = demoState.currentPlayer || "DemoPlayer";
+    const character = demoState.players.get(playerName)?.character_name || "dr_nova";
+
+    // PUT /player/:name - register player
+    if (path.match(/^\/player\/[^\/]+$/) && body.character_name) {
+      const name = path.replace("/player/", "");
       const cards = getDemoCards();
       
-      demoState.players.set(playerName, {
-        character_name: characterName,
+      demoState.players.set(name, {
+        character_name: body.character_name,
         cards: cards,
+        room_hall: "bridge",
       });
-      demoState.currentPlayer = playerName;
+      demoState.currentPlayer = name;
       
       return { success: true };
     }
 
-    if (path === "/player/disprove") {
+    // PUT /player/move/:name - move player
+    if (path.startsWith("/player/move/")) {
+      const playerData = demoState.players.get(playerName);
+      if (playerData && body.location) {
+        playerData.room_hall = body.location;
+      }
       return {
         current_player_info: {
-          player_name: demoState.currentPlayer,
-          character_name: demoState.players.get(demoState.currentPlayer)?.character_name || "dr_nova",
+          player_name: playerName,
+          character_name: character,
         },
       };
     }
 
-    return {};
+    // PUT /player/suggestions/:name - make suggestion
+    if (path.startsWith("/player/suggestions/")) {
+      console.log(`[DEMO] Suggestion: ${body.suggested_character} in ${body.suggested_room} with ${body.suggested_weapon}`);
+      return {
+        current_player_info: {
+          player_name: playerName,
+          character_name: character,
+        },
+      };
+    }
+
+    // PUT /player/accusation/:name - make accusation
+    if (path.startsWith("/player/accusation/")) {
+      console.log(`[DEMO] Accusation: ${body.accused_character} in ${body.accused_room} with ${body.accused_weapon}`);
+      // Random win/lose for demo
+      const guess = Math.random() > 0.5;
+      return {
+        guess: guess,
+        current_player_info: {
+          player_name: playerName,
+          character_name: character,
+        },
+      };
+    }
+
+    // PUT /player/disprove
+    if (path === "/player/disprove") {
+      return {
+        current_player_info: {
+          player_name: playerName,
+          character_name: character,
+        },
+      };
+    }
+
+    return { success: true };
   };
 
   public static delete = async (path: string): Promise<any> => {
