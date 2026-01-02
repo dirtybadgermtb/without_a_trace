@@ -37,7 +37,7 @@ ROOMS = [
     'engineering_bay', 'airlock', 'cargo_hold', 'cryo_bay'
 ]
 
-WEAPONS = ['plasma_cutter', 'oxygen_tank', 'stun_blaster', 'conduit_rod', 'tether_cable', 'mag_driver']
+WEAPONS = ['plasma_cutter', 'compact_rail_gun', 'stun_blaster', 'plasma_blade', 'tether_cable', 'mag_driver']
 
 CHARACTERS = [
     'dr_nova', 'engineer_orion', 'commander_sirius', 'agent_vega',

@@ -1,9 +1,9 @@
 // Without A Trace - USS Vesper Weapons
 export enum Weapon {
   plasma_cutter = "Plasma Cutter",
-  oxygen_tank = "Oxygen Tank",
+  compact_rail_gun = "Compact Rail Gun",
   stun_blaster = "Stun Blaster",
-  conduit_rod = "Conduit Rod",
+  plasma_blade = "Plasma Blade",
   tether_cable = "Tether Cable",
   mag_driver = "Mag-Driver",
 }
