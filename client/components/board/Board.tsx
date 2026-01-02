@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Room, Empty } from "./Room";
 import { Hall } from "./Hall";
-// USS Vesper Room Images - using existing assets as placeholders until space assets generated
-import DATA_CORE from "../../assets/study.png";
-import BRIDGE from "../../assets/hall.png";
-import CAPTAINS_QUARTERS from "../../assets/lounge.png";
-import ENGINEERING_BAY from "../../assets/library.png";
-import OBSERVATION_DECK from "../../assets/billiard.png";
-import MESS_HALL from "../../assets/dining.png";
-import AIRLOCK from "../../assets/conservatory.png";
-import CARGO_HOLD from "../../assets/ballroom.png";
-import CRYO_BAY from "../../assets/kitchen.png";
+// USS Vesper Room Images
+import DATA_CORE from "../../assets/data_core.png";
+import BRIDGE from "../../assets/bridge.png";
+import CAPTAINS_QUARTERS from "../../assets/captains_quarters.png";
+import ENGINEERING_BAY from "../../assets/engineering_bay.png";
+import OBSERVATION_DECK from "../../assets/observation_deck.png";
+import MESS_HALL from "../../assets/mess_hall.png";
+import AIRLOCK from "../../assets/airlock.png";
+import CARGO_HOLD from "../../assets/cargo_hold.png";
+import CRYO_BAY from "../../assets/cryo_bay.png";
 import "./Board.scss";
 import { useState, useEffect } from "react";
 import { ApiClient } from "../../ApiClient";
