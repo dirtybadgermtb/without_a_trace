@@ -4,7 +4,7 @@ import Notes from "./components/note/Notes";
 import { Board } from "./components/board/Board";
 import { Modal } from "./components/modal/Modal";
 import { Console } from "./components/console/Console";
-import { Cards } from "./components/Card/Cards";
+import { Cards } from "./components/card/Cards";
 import { ApiClient } from "./ApiClient";
 import { Suspect } from "./components/console/Suspect";
 
