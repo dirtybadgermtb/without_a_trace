@@ -9,7 +9,7 @@ export const Modal = (props) => {
   const [dialog, setDialog] = useState<HTMLDialogElement | null>(null);
 
   useEffect(() => {
-    if (dialog && dialog.showModal) {
+    if (dialog && typeof dialog.showModal === "function") {
       dialog!.showModal();
     }
   }, [dialog]);
